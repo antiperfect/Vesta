@@ -1,19 +1,10 @@
----
-title: Vesta Crop Yield Predictor
-emoji: 🌾
-colorFrom: green
-colorTo: yellow
-sdk: docker
-pinned: false
----
-
 # 🌾 Vesta: Crop Yield Prediction System
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg) ![React](https://img.shields.io/badge/react-v19.0.0-blue) ![Python](https://img.shields.io/badge/python-v3.10-yellow) ![Machine Learning](https://img.shields.io/badge/scikit--learn-orange) ![Flask](https://img.shields.io/badge/flask-%23000.svg?logo=flask&logoColor=white)
 
 An advanced, full-stack machine learning dashboard designed to predict and visualize crop yields based on environmental and agricultural parameters.
 
-**[Try the Live Webapp](https://huggingface.co/spaces/antiperfect/Vesta)**
+**[Try the Live Webapp](https://antiperfect-vesta.hf.space)**
 
 ---
 
