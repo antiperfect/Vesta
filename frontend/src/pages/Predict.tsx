@@ -17,6 +17,27 @@ const transitionVariants = {
 // Indian Seasons based on the dataset
 const SEASONS = ["Kharif", "Rabi", "Whole Year", "Summer", "Winter", "Autumn"]
 
+const CROPS = [
+    "Rice", "Wheat", "Maize", "Cotton(lint)", "Jute", "Sugarcane", "Bajra", "Jowar", 
+    "Soyabean", "Groundnut", "Tur", "Moong(Green Gram)", "Urad", "Gram", "Mustard", 
+    "Sunflower", "Sesamum", "Linseed", "Safflower", "Castor seed", "Barley", "Ragi", 
+    "Small millets", "Turmeric", "Coriander", "Garlic", "Onion", "Potato", "Sweet potato", 
+    "Tapioca", "Black pepper", "Dry chillies", "Dry ginger", "Cardamom", "Arecanut", 
+    "Banana", "Cashewnut", "Coconut", "Mango", "Orange", "Papaya", "Tobacco", "Guar seed", 
+    "Moth", "Horse-gram", "Khesari", "Masoor", "Peas & beans (Pulses)"
+].sort()
+
+const STATES = [
+    "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", 
+    "Bihar", "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli", "Daman and Diu", 
+    "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", 
+    "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", 
+    "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", 
+    "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+]
+
+const YEARS = Array.from({ length: 30 }, (_, i) => new Date().getFullYear() - i) // Last 30 years
+
 export function Predict() {
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState<{prediction: number, unit: string} | null>(null)
@@ -70,25 +91,10 @@ export function Predict() {
                     <div>
                         <form onSubmit={handleSubmit} className="glass-panel rounded-[2rem] p-6 md:p-8 shadow-sm border border-white/60">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                <FormInput label="Crop Name" name="Crop" placeholder="e.g. Rice, Wheat" required />
-                                <FormInput label="Crop Year" name="Crop_Year" type="number" placeholder="e.g. 2023" required />
-                                
-                                <div className="space-y-2">
-                                    <label className="text-xs font-semibold tracking-wide text-foreground uppercase">Season</label>
-                                    <div className="relative">
-                                        <select 
-                                            name="Season" 
-                                            required
-                                            defaultValue=""
-                                            className="w-full bg-white/50 border border-white/80 rounded-xl px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-transparent transition-all appearance-none shadow-sm text-sm"
-                                        >
-                                            <option value="" disabled>Select a season</option>
-                                            {SEASONS.map(s => <option key={s} value={s} className="bg-background">{s}</option>)}
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <FormInput label="State" name="State" placeholder="e.g. Maharashtra" required />
+                                <FormSelect label="Crop Name" name="Crop" options={CROPS} defaultValue="" required />
+                                <FormSelect label="Crop Year" name="Crop_Year" options={YEARS} defaultValue="" required />
+                                <FormSelect label="Season" name="Season" options={SEASONS} defaultValue="" required />
+                                <FormSelect label="State" name="State" options={STATES} defaultValue="" required />
                                 <FormInput label="Area (Hectares)" name="Area" type="number" step="0.01" placeholder="0.00" required />
                                 <FormInput label="Annual Rainfall (mm)" name="Annual_Rainfall" type="number" step="0.01" placeholder="0.00" required />
                                 <FormInput label="Fertilizer Usage" name="Fertilizer" type="number" step="0.01" placeholder="0.00" required />
@@ -166,6 +172,23 @@ function FormInput({ label, ...props }: React.InputHTMLAttributes<HTMLInputEleme
                 {...props}
                 className="w-full bg-white/50 border border-white/80 rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-transparent transition-all shadow-sm text-sm"
             />
+        </div>
+    )
+}
+
+function FormSelect({ label, options, ...props }: React.SelectHTMLAttributes<HTMLSelectElement> & { label: string, options: string[] | number[] }) {
+    return (
+        <div className="space-y-2">
+            <label className="text-xs font-semibold tracking-wide text-foreground uppercase">{label}</label>
+            <div className="relative">
+                <select 
+                    {...props}
+                    className="w-full bg-white/50 border border-white/80 rounded-xl px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-transparent transition-all appearance-none shadow-sm text-sm"
+                >
+                    <option value="" disabled>Select {label}</option>
+                    {options.map(opt => <option key={opt} value={opt} className="bg-background">{opt}</option>)}
+                </select>
+            </div>
         </div>
     )
 }
