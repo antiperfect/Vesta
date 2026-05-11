@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #fdfbf7;
+  --color-surface: #ffffff;
+  --color-primary: #8a9a86; /* Sage green */
+  --color-primary-light: #b0c0ac;
+  --color-secondary: #a66c37; /* Darker terracotta / gold for readability */
+  --color-tertiary: #dfd8cd; /* Warm greige/marble */
+  --color-on-background: #2c362e;
+  --color-on-surface: #404a42;
+  --color-muted: #8b968e;
+  --color-border: #e6e3da;
+
+  --radius: 1.5rem;
+  --radius-lg: 2.5rem;
+  --radius-xl: 3.5rem;
+  --radius-full: 9999px;
+
+  --font-body: "Lato", sans-serif;
+  --font-heading: "Playfair Display", serif;
+}
+
+:root {
+  --background: var(--color-background);
+  --foreground: var(--color-on-background);
+  --primary: var(--color-primary);
+  --secondary: var(--color-secondary);
+  --muted-foreground: var(--color-muted);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-on-surface);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+
+  .text-display-lg {
+    font-size: 56px;
+    line-height: 64px;
+    font-weight: 500;
+  }
+  
+  .text-display-lg-mobile {
+    font-size: 40px;
+    line-height: 48px;
+    font-weight: 500;
+  }
+  
+  .text-headline-md {
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 500;
+  }
+  
+  .text-body-lg {
+    font-size: 18px;
+    line-height: 32px;
+    font-weight: 400;
+  }
+  
+  .text-body-md {
+    font-size: 15px;
+    line-height: 26px;
+    font-weight: 400;
+  }
+
+  /* Whitish backdrop with minimal blur as requested */
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  }
+
+  .glass-pill {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  }
+}
