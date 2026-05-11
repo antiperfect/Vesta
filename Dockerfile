@@ -1,33 +1,30 @@
-# Stage 1: Build Frontend
-FROM node:20-slim AS frontend-builder
+# Stage 1: Build the React Frontend
+FROM node:18-alpine AS frontend-builder
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ ./
 RUN npm run build
 
-# Stage 2: Final Image
-FROM python:3.9-slim
-
-# Hugging Face best practice: Use a non-root user
-RUN useradd -m -u 1000 user
-USER user
-ENV PATH="/home/user/.local/bin:$PATH"
-
+# Stage 2: Set up the Python Backend
+FROM python:3.10-slim
 WORKDIR /app
 
 # Install backend dependencies
-COPY --chown=user backend/requirements.txt ./
+COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install gunicorn
 
 # Copy backend code
-COPY --chown=user backend/ ./
+COPY backend/ .
 
-# Copy built frontend from Stage 1
-COPY --from=frontend-builder --chown=user /app/frontend/dist ./dist
+# Copy the built frontend to the backend's static folder
+# Note: React build goes to 'dist', we move it to 'static'
+COPY --from=frontend-builder /app/frontend/dist ./static
 
-# Expose HF default port
+# Set Hugging Face specific environment variables
+ENV PORT=7860
 EXPOSE 7860
 
-# Run the app
-CMD ["python", "app.py"]
+# Start the application using Gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:7860", "app:app"]
